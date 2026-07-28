@@ -1,0 +1,18 @@
+{
+  "name": "이음 — 가족의 기억",
+  "short_name": "이음",
+  "description": "가족의 목소리와 삶의 기억을 잇는 서비스",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf6ec",
+  "theme_color": "#173f34",
+  "lang": "ko-KR",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
