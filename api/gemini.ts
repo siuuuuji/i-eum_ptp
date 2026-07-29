@@ -1,4 +1,4 @@
-import { callGemini, type GeminiRequestBody } from "./_gemini";
+import { callGemini, type GeminiRequestBody } from "./_gemini.js";
 
 interface VercelLikeRequest {
   method?: string;
