@@ -113,11 +113,12 @@ Firebase Hosting은 정적 파일만 서빙하므로 이음 앱의 `/api/gemini`
 
 ```bash
 npm install -g firebase-tools
-firebase login                      # 브라우저 인증
-firebase use --add                  # 배포할 Firebase 프로젝트 선택 (.firebaserc 생성)
-npm run build
-firebase deploy --only hosting
+firebase login                      # 브라우저 인증 (최초 1회)
+firebase use --add                  # 배포할 Firebase 프로젝트 선택 (.firebaserc 생성, 최초 1회)
+npm run deploy:firebase             # 빌드 + hosting 배포
 ```
+
+`.firebaserc`에 프로젝트가 잡혀 있으면 이후로는 `npm run deploy:firebase` 한 줄이면 됩니다.
 
 `firebase.json`에 `/malang` → `/malang.html` 재작성 규칙이 이미 들어 있습니다.
 CI에서 비대화식으로 배포하려면 서비스 계정 키를 `GOOGLE_APPLICATION_CREDENTIALS`로 지정하고
