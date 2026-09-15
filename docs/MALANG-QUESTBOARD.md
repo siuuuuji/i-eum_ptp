@@ -89,3 +89,36 @@ src/malang/
 - 기기 간 공유: 현재 `lib/store.ts`가 저장·동기화를 모두 감싸고 있으므로, 이 파일만 Supabase 등 실시간 DB로 바꾸면 화면은 그대로 둔 채 두 사람이 각자 기기에서 쓸 수 있습니다.
 - 기한이 지나는 순간 브라우저 알림 보내기.
 - 주간 목표(현재 12개 고정)를 두 사람이 직접 정하기.
+
+## 배포
+
+이 앱은 서버 없이 도는 정적 화면이라, 빌드 결과물만 올리면 그대로 동작합니다
+(같은 저장소의 이음 앱이 쓰는 `/api/gemini`와 달리 서버리스 함수가 필요 없습니다).
+
+### Vercel
+
+저장소가 Vercel 프로젝트 `i-eum-ptp`에 연결되어 있어, 푸시하면 자동으로 배포됩니다.
+
+- `main`에 올라가면 프로덕션, 그 밖의 브랜치는 미리보기 배포가 만들어집니다.
+- 빌드 명령 `npm run build`, 출력 폴더 `dist`는 Vercel이 자동 감지합니다.
+- `vercel.json`의 재작성 규칙이 `/malang` → `/malang.html`을 연결합니다. 이 규칙이
+  SPA 폴백(`/(.*)` → `/index.html`)보다 **먼저** 와야 합니다.
+- 이음 앱의 AI 기능을 쓰려면 프로젝트 환경 변수에 `GEMINI_API_KEY`가 필요합니다.
+  퀘스트보드만 볼 때는 없어도 됩니다.
+
+### Firebase Hosting
+
+Firebase Hosting은 정적 파일만 서빙하므로 이음 앱의 `/api/gemini`는 동작하지 않지만,
+퀘스트보드는 정적이라 온전히 동작합니다.
+
+```bash
+npm install -g firebase-tools
+firebase login                      # 브라우저 인증
+firebase use --add                  # 배포할 Firebase 프로젝트 선택 (.firebaserc 생성)
+npm run build
+firebase deploy --only hosting
+```
+
+`firebase.json`에 `/malang` → `/malang.html` 재작성 규칙이 이미 들어 있습니다.
+CI에서 비대화식으로 배포하려면 서비스 계정 키를 `GOOGLE_APPLICATION_CREDENTIALS`로 지정하고
+`firebase deploy --project <프로젝트ID>`를 쓰면 됩니다.
