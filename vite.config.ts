@@ -1,4 +1,3 @@
-import { resolve } from "node:path";
 import { defineConfig, loadEnv, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import { callGemini } from "./api/_gemini";
@@ -44,16 +43,6 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), geminiDevApiPlugin()],
-    build: {
-      target: "es2022",
-      rollupOptions: {
-        input: {
-          // 이음 본편
-          main: resolve(__dirname, "index.html"),
-          // 천리말랑 퀘스트보드 (/malang)
-          malang: resolve(__dirname, "malang.html")
-        }
-      }
-    }
+    build: { target: "es2022" }
   };
 });
