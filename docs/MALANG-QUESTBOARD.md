@@ -111,14 +111,26 @@ src/malang/
 Firebase Hosting은 정적 파일만 서빙하므로 이음 앱의 `/api/gemini`는 동작하지 않지만,
 퀘스트보드는 정적이라 온전히 동작합니다.
 
+배포 대상 프로젝트는 `.firebaserc`에 `first-d6856`로 지정되어 있습니다.
+
 ```bash
 npm install -g firebase-tools
 firebase login                      # 브라우저 인증 (최초 1회)
-firebase use --add                  # 배포할 Firebase 프로젝트 선택 (.firebaserc 생성, 최초 1회)
 npm run deploy:firebase             # 빌드 + hosting 배포
 ```
 
-`.firebaserc`에 프로젝트가 잡혀 있으면 이후로는 `npm run deploy:firebase` 한 줄이면 됩니다.
+`.firebaserc`가 저장소에 있으므로 `firebase use --add`는 필요 없습니다. 다른 프로젝트로
+배포하려면 그때만 `firebase use --add`로 바꾸면 됩니다.
+
+배포 주소:
+
+- https://first-d6856.web.app/malang — 퀘스트보드
+- https://first-d6856.web.app/ — 이음 앱 (정적 화면만, `/api/gemini`는 동작하지 않음)
+
+> 참고: Firebase CLI의 대화식 `firebase login`은 `auth.firebase.tools`를 쓰기 때문에
+> 외부 접속이 제한된 환경(예: Claude Code 웹 세션)에서는 동작하지 않습니다. 그런 환경에서
+> 배포해야 한다면 Hosting Admin 권한을 가진 서비스 계정 키를 `GOOGLE_APPLICATION_CREDENTIALS`로
+> 넘기는 방식만 가능합니다(이 경로는 `*.googleapis.com`만 사용합니다).
 
 `firebase.json`에 `/malang` → `/malang.html` 재작성 규칙이 이미 들어 있습니다.
 CI에서 비대화식으로 배포하려면 서비스 계정 키를 `GOOGLE_APPLICATION_CREDENTIALS`로 지정하고
